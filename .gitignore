@@ -5,4 +5,12 @@
 *.war
 *.ear
 
-#
+.classpath
+*/.settings/
+*/bin/*
+.project
+
+*.iml
+*/target/
+*/work/
+*/bin/
