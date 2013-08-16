@@ -9,8 +9,10 @@
 */.settings/
 */bin/*
 .project
+.settings/
 
 *.iml
 */target/
 */work/
 */bin/
+/target
