@@ -10,7 +10,7 @@
 
     <artifactId>build-line</artifactId>
     <name>Build Line Plugin</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
     <build>
@@ -144,10 +144,27 @@
         </repository>
     </repositories>
 
+	<scm>
+		<connection>scm:git:ssh://github.com/jenkinsci/build-line-plugin.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/build-line-plugin.git</developerConnection>
+		<url>https://github.com/jenkinsci/build-line-plugin.git</url>
+    </scm>
+	
     <pluginRepositories>
         <pluginRepository>
             <id>repo.jenkins-ci.org</id>
             <url>http://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
+	
+	<developers>
+		<developer>
+			<id>k-qing</id>
+			<name>Jiaqing Sun</name>
+			<email>k.qing@outlook.com</email>
+		</developer>
+    </developers>
+	
+	<url>https://github.com/k-qing/build-line-plugin/wiki</url>
+	
 </project>
