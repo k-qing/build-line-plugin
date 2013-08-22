@@ -9,7 +9,7 @@
 
     <artifactId>build-line</artifactId>
     <name>Build Line Plugin</name>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
     <build>
