@@ -110,11 +110,10 @@
 	<developers>
 		<developer>
 			<id>k-qing</id>
-			<name>Jiaqing Sun</name>
 			<email>k.qing@outlook.com</email>
 		</developer>
     </developers>
 	
-	<url>https://github.com/k-qing/build-line-plugin/wiki</url>
+	<url>https://wiki.jenkins-ci.org/display/JENKINS/build+line+plugin</url>
 	
 </project>
