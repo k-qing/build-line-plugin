@@ -1,5 +1,4 @@
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
-         xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
     <link href="${rootURL}/plugin/build-line/css/main.css" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet"
           href="${rootURL}/plugin/build-line/css/redmond/jquery-ui-1.8.14.custom.css"/>
@@ -13,30 +12,30 @@
     <script src="${rootURL}/plugin/build-line/js/jquery.tooltip.min.js"/>
     <style>
         .datalist{
-         border:1px solid #0058a3;
-         font-family:Arial;
-         border-collapse:collapse;
-         background-color:#eaf5ff;
-         font-size:14px;
+        border:1px solid #0058a3;
+        font-family:Arial;
+        border-collapse:collapse;
+        background-color:#eaf5ff;
+        font-size:14px;
         }
         .datalist caption{
-         padding-bottom:5px;
-         font:bold 1.4em;
-         text-align:left;
+        padding-bottom:5px;
+        font:bold 1.4em;
+        text-align:left;
         }
         .datalist th{
-         text-align:center;
+        text-align:center;
         }
         .datalist td{
-         border:1px solid #0058a3;
-         text-align:left;
-         padding-top:4px; padding-bottom:4px;
-         padding-left:10px; padding-right:10px;
-         width: 120px;
-     
+        border:1px solid #0058a3;
+        text-align:left;
+        padding-top:4px; padding-bottom:4px;
+        padding-left:10px; padding-right:10px;
+        width: 120px;
+
         }
         .datalist tr.altrow{
-         background-color:#c7e5ff;
+        background-color:#c7e5ff;
         }
     </style>
     <br/>
@@ -46,38 +45,39 @@
                 <a href='configure'>
                     <img src="${rootURL}/images/24x24/setting.png" alt="Configure" class="icon-with-caption"/>Configure
                 </a>
-                </td>
-                <td>
+            </td>
+            <td>
                 <a href='newJob'>
                     <img src="${rootURL}/images/24x24/new-package.png" alt="Add Step" class="icon-with-caption"/>Add
                     Step
                 </a>
-                </td>
-                <td>
+            </td>
+            <td>
                 <a href='../../manage'>
                     <img src="${rootURL}/images/24x24/setting.png" class="icon-with-caption"/>Manage
                 </a>
-                </td>
-                <td>
+            </td>
+            <td>
                 <a href='delete'>
                     <img src="${rootURL}/images/24x24/edit-delete.png" class="icon-with-caption"/>Delete
                 </a>
             </td>
         </tr>
-     </table>
-     <br/>
-    
-    <j:set var="tableData" value="${from.getTableData()}" />
-    
-    <j:forEach var="tableEntry" items="${tableData.entrySet()}">
-    <table class="datalist" border="1">
-        <tr class="altrow">
-            <j:forEach var="header" items="${tableEntry.getKey().getHeaderList()}">
-                <td>${header}</td>
-            </j:forEach>
-        </tr>
+    </table>
+    <br/>
 
-            <j:forEach var="row" items="${tableEntry.getValue()}" begin="0" end="${tableEntry.getValue().size() - 1}" indexVar="j">
+    <j:set var="tableData" value="${from.getTableData()}"/>
+
+    <j:forEach var="tableEntry" items="${tableData.entrySet()}">
+        <table class="datalist" border="1">
+            <tr class="altrow">
+                <j:forEach var="header" items="${tableEntry.getKey().getHeaderList()}">
+                    <td>${header}</td>
+                </j:forEach>
+            </tr>
+
+            <j:forEach var="row" items="${tableEntry.getValue()}" begin="0" end="${tableEntry.getValue().size() - 1}"
+                       indexVar="j">
                 <j:if test="${j%2!=0}">
                     <tr class="altrow">
                         <j:forEach var="build" items="${row}" begin="0" end="${row.size() - 1}" indexVar="i">
@@ -85,31 +85,37 @@
                                 <td>${build.toString()}</td>
                             </j:if>
                             <j:if test="${i != 0}">
-                            <j:if test="${build == null}">
+                                <j:if test="${build == null}">
                                     <td>
                                         Not Executed
                                     </td>
                                 </j:if>
                                 <j:if test="${build != null}">
-                                
-                                <j:if test="${build.getResult().toString().equals('SUCCESS')}">
-								<td bgcolor="green">
-									<a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
-									<br /> ${build.getStartTime()}
-									<br /> ${build.getSummary()}
-									<br /> ${build.getResult().toString()}
-								</td>
-								</j:if>
-                                <j:if test="${!build.getResult().toString().equals('SUCCESS')}">
-                                    <td bgcolor="red">
-                                        <a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
-                                        <br /> ${build.getStartTime()}
-                                        <br /> ${build.getSummary()}
-										<br /> ${build.getResult().toString()}
-									</td>
+
+                                    <j:if test="${build.getResult().toString().equals('SUCCESS')}">
+                                        <td bgcolor="green">
+                                            <a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
+                                            <br/>
+                                            ${build.getStartTime()}
+                                            <br/>
+                                            ${build.getSummary()}
+                                            <br/>
+                                            ${build.getResult().toString()}
+                                        </td>
+                                    </j:if>
+                                    <j:if test="${!build.getResult().toString().equals('SUCCESS')}">
+                                        <td bgcolor="red">
+                                            <a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
+                                            <br/>
+                                            ${build.getStartTime()}
+                                            <br/>
+                                            ${build.getSummary()}
+                                            <br/>
+                                            ${build.getResult().toString()}
+                                        </td>
+                                    </j:if>
                                 </j:if>
-                                </j:if>
-                                
+
                             </j:if>
                         </j:forEach>
                     </tr>
@@ -121,34 +127,40 @@
                                 <td>${build.toString()}</td>
                             </j:if>
                             <j:if test="${build == null}">
-	                        	<td>Not Executed</td>
+                                <td>Not Executed</td>
                             </j:if>
-	                            <j:if test="${i != 0}">
-	                            <j:if test="${build != null}">
-	                                <j:if test="${build.getResult().toString().equals('SUCCESS')}">
-	                                    <td bgcolor="green">
-	                                        <a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
-	                                        <br /> ${build.getStartTime()}
-	                                        <br /> ${build.getSummary()}
-											<br /> ${build.getResult().toString()}
-	                                    </td>
-	                                </j:if>
-	                                
-	                                <j:if test="${!build.getResult().toString().equals('SUCCESS')}">
-	                                    <td bgcolor="red">
-	                                        <a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
-	                                        <br /> ${build.getStartTime()}
-	                                        <br /> ${build.getSummary()}
-											<br /> ${build.getResult().toString()}
-	                                    </td>
-	                                </j:if>
-	                            </j:if>
-	                            </j:if>
+                            <j:if test="${i != 0}">
+                                <j:if test="${build != null}">
+                                    <j:if test="${build.getResult().toString().equals('SUCCESS')}">
+                                        <td bgcolor="green">
+                                            <a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
+                                            <br/>
+                                            ${build.getStartTime()}
+                                            <br/>
+                                            ${build.getSummary()}
+                                            <br/>
+                                            ${build.getResult().toString()}
+                                        </td>
+                                    </j:if>
+
+                                    <j:if test="${!build.getResult().toString().equals('SUCCESS')}">
+                                        <td bgcolor="red">
+                                            <a href="${rootURL}/${build.getUrl()}">${build.getProjectName()}</a>
+                                            <br/>
+                                            ${build.getStartTime()}
+                                            <br/>
+                                            ${build.getSummary()}
+                                            <br/>
+                                            ${build.getResult().toString()}
+                                        </td>
+                                    </j:if>
+                                </j:if>
+                            </j:if>
                         </j:forEach>
                     </tr>
                 </j:if>
             </j:forEach>
-    </table>
-    <br/>
+        </table>
+        <br/>
     </j:forEach>
 </j:jelly>

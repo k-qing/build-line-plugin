@@ -6,6 +6,12 @@
 		<f:textbox name="buildViewTitle"/>
   	</f:entry>
 
+    <f:entry title="Configuration Type" field="configType">
+        <select name="configType">
+            <option value="default">Default</option>
+            <option value="advanced">Advanced</option>
+        </select>
+    </f:entry>
 
     <f:entry title="Table Information" help="/plugin/build-line/help/help-tableInformation.html">
         <f:repeatable field="tableInfoList" name="tableInfoList" >
