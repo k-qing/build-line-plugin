@@ -1,11 +1,13 @@
 package com.k.qing.jenkins.plugin.buildline;
 
 import com.k.qing.jenkins.plugin.buildline.bean.BuildLineBuild;
+import com.k.qing.jenkins.plugin.buildline.bean.CellBean;
 import com.k.qing.jenkins.plugin.buildline.bean.ProjectConfiguration;
 import com.k.qing.jenkins.plugin.buildline.bean.TableInfo;
 import com.k.qing.jenkins.plugin.buildline.util.*;
 import hudson.Extension;
 import hudson.model.*;
+import hudson.util.RunList;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
@@ -39,6 +41,10 @@ public class BuildLineView extends View {
     
     private static String SUMMARY_REPORT_NAME = "summary.txt";
 
+    private String identifier;
+    private String firstProjectName;
+    private List<String> projectList = new ArrayList<String>();
+
 
     @DataBoundConstructor
     public BuildLineView(final String name, final String buildViewTitle, final String initialJobs, List<ProjectConfiguration> lineList, List<TableInfo> tableInfoList) {
@@ -47,6 +53,79 @@ public class BuildLineView extends View {
         this.lineList = lineList;
         this.tableInfoList = tableInfoList;
     }
+
+
+    public Map<String, List<CellBean>> getViewData() {
+        Map<String, List<CellBean>> viewData = new LinkedHashMap<String, List<CellBean>>();
+        identifier = "tags";
+        int maxNum = 10;
+        firstProjectName = "merge";
+
+        Item item = Jenkins.getInstance().getItem("build");
+        projectList = new ArrayList<String>();
+        //projectList.add("merge");
+        projectList.add("build");
+
+        List<String> identifierList = new ArrayList<String>();
+        Map<String, AbstractBuild<?, ?>> idBuildMap = new HashMap<String, AbstractBuild<?, ?>>();
+
+        AbstractProject<?, ?> project = (AbstractProject<?, ?>)Jenkins.getInstance().getItem(firstProjectName);
+        RunList buildList = project.getBuilds();
+
+
+        for (int k = 0; k < maxNum; k++) {
+            if (k < buildList.size()) {
+                AbstractBuild<?, ?> build = (AbstractBuild<?, ?>)buildList.get(k);
+                String identifierValue = build.getBuildVariables().get(identifier);
+                identifierList.add(identifierValue);
+                idBuildMap.put(identifierValue, build);
+                List<CellBean> cellBeanList = new ArrayList<CellBean>();
+                CellBean cellBean = new CellBean();
+                cellBean.setContent(build.toString());
+                cellBean.setBuildNumber(build.getNumber());
+                cellBean.setBuild(build);
+                cellBeanList.add(cellBean);
+                viewData.put(identifierValue, cellBeanList);
+            } else {
+                break;
+            }
+        }
+
+        for(int j = 0; j < identifierList.size(); j++) {
+            for (int i = 0; i < projectList.size(); i++) {
+                String projectName = projectList.get(i);
+                AbstractBuild<?, ?> build = getBuild(identifierList.get(j), maxNum, projectName);
+                if (build != null) {
+                    CellBean cellBean = new CellBean();
+                    cellBean.setContent(build.toString());
+                    cellBean.setBuildNumber(build.getNumber());
+                    cellBean.setBuild(build);
+                    viewData.get(identifierList.get(j)).add(cellBean);
+                }
+
+            }
+        }
+
+        return viewData;
+    }
+
+    private AbstractBuild<?, ?> getBuild(String id, int maxNum, String projectName) {
+        AbstractProject<?, ?> project = (AbstractProject<?, ?>)Jenkins.getInstance().getItem(projectName);
+        RunList buildList = project.getBuilds();
+        for (int k = 0; k < maxNum; k++) {
+            if (k < buildList.size()) {
+                AbstractBuild<?, ?> build = (AbstractBuild<?, ?>)buildList.get(k);
+                if (build != null) {
+                    String identifierValue = build.getBuildVariables().get(identifier);
+                    if(identifierValue.equals(id)) {
+                        return build;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Get all the information that view page uses.
