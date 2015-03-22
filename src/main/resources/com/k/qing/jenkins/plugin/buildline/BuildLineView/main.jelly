@@ -12,7 +12,7 @@
     <script src="${rootURL}/plugin/build-line/js/jquery.tooltip.min.js"/>
     <style>
         .datalist{
-        border:1px solid #0058a3;
+        border:0px solid #0058a3;
         font-family:Arial;
         border-collapse:collapse;
         background-color:#eaf5ff;
@@ -27,8 +27,8 @@
         text-align:center;
         }
         .datalist td{
-        border:1px solid #0058a3;
-        text-align:left;
+        border:0px solid #0058a3;
+        text-align:center;
         padding-top:4px; padding-bottom:4px;
         padding-left:10px; padding-right:10px;
         width: 120px;
@@ -75,16 +75,26 @@
                 ${tableEntry.getKey()} <br/>
                 ${tableEntry.getValue().get(0).getBuild().getTimestamp().getTime()}
             </td>
-            <j:forEach var="tableCell" items="${tableEntry.getValue()}">
+            <j:forEach var="tableCell" items="${tableEntry.getValue()}" begin="0" end="${tableEntry.getValue().size() - 1}" indexVar="i">
                 <j:if test="${tableCell.getBuild().isBuilding()}">
                     <td bgcolor="yellow">
                         ${tableCell.getContent()}
                     </td>
+                    <j:if test="${i != (tableEntry.getValue().size() - 1)}">
+                        <td style="width: 30px;vertical-align: middle">
+                            -->
+                        </td>
+                    </j:if>
                 </j:if>
                 <j:if test="${!tableCell.getBuild().isBuilding()}">
-                <td>
-                    ${tableCell.getContent()}
-                </td>
+                    <td>
+                        ${tableCell.getContent()}
+                    </td>
+                    <j:if test="${i != (tableEntry.getValue().size() - 1)}">
+                        <td style="width: 30px;vertical-align: middle">
+                            -->
+                        </td>
+                    </j:if>
                 </j:if>
             </j:forEach>
         </tr>
@@ -114,7 +124,7 @@
                                     <td>
                                         Not Executed
                                     </td>
-                                </j:if>
+                  \              </j:if>
                                 <j:if test="${build != null}">
 
                                     <j:if test="${build.getResult().toString().equals('SUCCESS')}">
