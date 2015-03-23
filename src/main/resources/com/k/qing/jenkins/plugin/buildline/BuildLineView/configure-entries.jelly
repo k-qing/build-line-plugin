@@ -6,7 +6,15 @@
 		<f:textbox name="buildViewTitle"/>
   	</f:entry>
 
-    <f:dropdownList name="configType" title="Configuration Type" help="">
+  	<f:entry title="Project List">
+        <f:textbox name="projects"/>
+  	</f:entry>
+
+    <f:entry title="Identifier">
+        <f:textbox name="identifier"/>
+    </f:entry>
+
+    <!--<f:dropdownList name="configType" title="Configuration Type" help="">
         <f:dropdownListBlock value="default" title="Default">
             <f:entry title="First Project" help="">
                 <f:textbox name="drive" value="${it.drive}" />
@@ -16,7 +24,7 @@
             <f:entry title="Table Information" help="/plugin/build-line/help/help-tableInformation.html">
                 <f:repeatable field="tableInfoList" name="tableInfoList" >
                     <f:repeatableDeleteButton/><br/>
-                    <!-- name is used for http request, field is used for bind to jenkins bean-->
+                    &lt;!&ndash; name is used for http request, field is used for bind to jenkins bean&ndash;&gt;
                     Headers : <f:textbox name="table_headers" field="headers" default=""/>
                     Branches : <f:textbox name="table_branches" field="branches" default=""/>
                 </f:repeatable>
@@ -29,7 +37,10 @@
                 </f:repeatable>
             </f:entry>
         </f:dropdownListBlock>
-    </f:dropdownList>
+    </f:dropdownList>-->
+
+
+
 
 
 

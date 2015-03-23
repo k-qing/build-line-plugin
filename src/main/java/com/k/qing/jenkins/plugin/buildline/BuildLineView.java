@@ -46,12 +46,23 @@ public class BuildLineView extends View {
     private List<String> projectList = new ArrayList<String>();
 
 
-    @DataBoundConstructor
+    /*@DataBoundConstructor
     public BuildLineView(final String name, final String buildViewTitle, final String initialJobs, List<ProjectConfiguration> lineList, List<TableInfo> tableInfoList) {
         super(name, Hudson.getInstance());
         this.buildViewTitle = buildViewTitle;
         this.lineList = lineList;
         this.tableInfoList = tableInfoList;
+    }*/
+
+    @DataBoundConstructor
+    public BuildLineView(final String name, final String buildViewTitle, String projects, String identifier) {
+        super(name, Hudson.getInstance());
+        this.buildViewTitle = buildViewTitle;
+        this.identifier = identifier;
+        if (projects != null) {
+            this.projectList = new ArrayList<String>();
+            projectList.addAll(Arrays.asList(projects.split(",")));
+        }
     }
 
 
@@ -59,7 +70,8 @@ public class BuildLineView extends View {
         Map<String, List<CellBean>> viewData = new LinkedHashMap<String, List<CellBean>>();
         identifier = "tags";
         int maxNum = 10;
-        firstProjectName = "merge";
+        //firstProjectName = "merge";
+        firstProjectName = projectList.get(0);
 
         Item item = Jenkins.getInstance().getItem("build");
         projectList = new ArrayList<String>();
@@ -76,6 +88,9 @@ public class BuildLineView extends View {
         for (int k = 0; k < maxNum; k++) {
             if (k < buildList.size()) {
                 AbstractBuild<?, ?> build = (AbstractBuild<?, ?>)buildList.get(k);
+
+
+
                 String identifierValue = build.getBuildVariables().get(identifier);
                 identifierList.add(identifierValue);
                 idBuildMap.put(identifierValue, build);
@@ -397,17 +412,23 @@ public class BuildLineView extends View {
     @Override
     protected void submit(StaplerRequest req) throws IOException, ServletException, Descriptor.FormException {
         this.buildViewTitle = req.getParameter("buildViewTitle");
-        String[] projectNames = req.getParameterValues("projectNames");
-
-        this.tableInfoList = req.bindParametersToList(TableInfo.class, "table_");
-
-        List<ProjectConfiguration> projectConfigurationList = new ArrayList<ProjectConfiguration>();
-        for(String projectName : projectNames) {
-            ProjectConfiguration projectConfiguration = new ProjectConfiguration(projectName);
-            projectConfigurationList.add(projectConfiguration);
+        this.identifier = req.getParameter("identifier");
+        String projects = req.getParameter("projects");
+        if (projects != null) {
+            this.projectList = new ArrayList<String>();
+            this.projectList.addAll(Arrays.asList(projects.split(",")));
         }
-
-        this.lineList = projectConfigurationList;
+//        String[] projectNames = req.getParameterValues("projectNames");
+//
+//        this.tableInfoList = req.bindParametersToList(TableInfo.class, "table_");
+//
+//        List<ProjectConfiguration> projectConfigurationList = new ArrayList<ProjectConfiguration>();
+//        for(String projectName : projectNames) {
+//            ProjectConfiguration projectConfiguration = new ProjectConfiguration(projectName);
+//            projectConfigurationList.add(projectConfiguration);
+//        }
+//
+//        this.lineList = projectConfigurationList;
 
     }
 
