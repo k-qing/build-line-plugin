@@ -43,6 +43,7 @@ public class BuildLineView extends View {
 
     private String identifier;
     private String firstProjectName;
+    private String projects;
     private List<String> projectList = new ArrayList<String>();
 
 
@@ -67,6 +68,11 @@ public class BuildLineView extends View {
 
 
     public Map<String, List<CellBean>> getViewData() {
+        if (projects != null) {
+            this.projectList = new ArrayList<String>();
+            this.projectList.addAll(Arrays.asList(projects.split(",")));
+        }
+
         Map<String, List<CellBean>> viewData = new LinkedHashMap<String, List<CellBean>>();
         identifier = "tags";
         int maxNum = 10;
@@ -88,7 +94,6 @@ public class BuildLineView extends View {
         for (int k = 0; k < maxNum; k++) {
             if (k < buildList.size()) {
                 AbstractBuild<?, ?> build = (AbstractBuild<?, ?>)buildList.get(k);
-
 
 
                 String identifierValue = build.getBuildVariables().get(identifier);
@@ -413,11 +418,7 @@ public class BuildLineView extends View {
     protected void submit(StaplerRequest req) throws IOException, ServletException, Descriptor.FormException {
         this.buildViewTitle = req.getParameter("buildViewTitle");
         this.identifier = req.getParameter("identifier");
-        String projects = req.getParameter("projects");
-        if (projects != null) {
-            this.projectList = new ArrayList<String>();
-            this.projectList.addAll(Arrays.asList(projects.split(",")));
-        }
+        this.projects = req.getParameter("projects");
 //        String[] projectNames = req.getParameterValues("projectNames");
 //
 //        this.tableInfoList = req.bindParametersToList(TableInfo.class, "table_");
@@ -463,6 +464,30 @@ public class BuildLineView extends View {
 
     public void setTableInfoList(List<TableInfo> tableInfoList) {
         this.tableInfoList = tableInfoList;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public List<String> getProjectList() {
+        return projectList;
+    }
+
+    public void setProjectList(List<String> projectList) {
+        this.projectList = projectList;
+    }
+
+    public String getProjects() {
+        return projects;
+    }
+
+    public void setProjects(String projects) {
+        this.projects = projects;
     }
 
     /**

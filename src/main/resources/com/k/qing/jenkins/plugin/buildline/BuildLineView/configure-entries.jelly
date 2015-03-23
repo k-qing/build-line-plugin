@@ -6,11 +6,11 @@
 		<f:textbox name="buildViewTitle"/>
   	</f:entry>
 
-  	<f:entry title="Project List">
+  	<f:entry title="Project List" field="projects">
         <f:textbox name="projects"/>
   	</f:entry>
 
-    <f:entry title="Identifier">
+    <f:entry title="Identifier" field="identifier">
         <f:textbox name="identifier"/>
     </f:entry>
 

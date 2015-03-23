@@ -31,12 +31,20 @@
         text-align:center;
         padding-top:4px; padding-bottom:4px;
         padding-left:10px; padding-right:10px;
-        width: 120px;
-
+        width:150px;
         }
         .datalist tr.altrow{
         background-color:#c7e5ff;
         }
+
+        .innerblock td {
+        border:1px solid #0058a3;
+        text-align:center;
+        padding-top:4px; padding-bottom:4px;
+        padding-left:10px; padding-right:10px;
+        width:150px;
+        }
+
     </style>
     <br/>
     <table class="datalist">
@@ -52,11 +60,11 @@
                     Step
                 </a>
             </td>
-            <td>
+           <!-- <td>
                 <a href='../../manage'>
                     <img src="${rootURL}/images/24x24/setting.png" class="icon-with-caption"/>Manage
                 </a>
-            </td>
+            </td>-->
             <td>
                 <a href='delete'>
                     <img src="${rootURL}/images/24x24/edit-delete.png" class="icon-with-caption"/>Delete
@@ -77,10 +85,13 @@
             </td>
             <j:forEach var="tableCell" items="${tableEntry.getValue()}" begin="0" end="${tableEntry.getValue().size() - 1}" indexVar="i">
                 <j:if test="${tableCell.getBuild().isBuilding()}">
-                    <td bgcolor="yellow">
-                        ${tableCell.getBuild().getDurationString()}<br/>
-                        ${tableCell.getContent()}
-
+                    <td>
+                        <table class="innerblock" style="background-color:yellow;">
+                            <tr><td>${tableCell.getBuild().getDurationString()}</td></tr>
+                            <tr><td><a href="${tableCell.getBuild().getUrl()}" target="_blank">${tableCell.getBuild()}</a></td></tr>
+                            <tr><td>${tableCell.getContent()}</td></tr>
+                            <tr><td style="text-align:right">console</td></tr>
+                        </table>
                     </td>
                     <j:if test="${i != (tableEntry.getValue().size() - 1)}">
                         <td style="width: 30px;vertical-align: middle">
@@ -90,8 +101,12 @@
                 </j:if>
                 <j:if test="${!tableCell.getBuild().isBuilding()}">
                     <td>
-                        ${tableCell.getBuild().getDurationString()}<br/>
-                        ${tableCell.getContent()}
+                        <table class="innerblock">
+                            <tr><td>${tableCell.getBuild().getDurationString()}</td></tr>
+                            <tr><td><a href="${tableCell.getBuild().getUrl()}" target="_blank">${tableCell.getBuild()}</a></td></tr>
+                            <tr><td>${tableCell.getContent()}</td></tr>
+                            <tr><td style="text-align:right">console</td></tr>
+                        </table>
                     </td>
                     <j:if test="${i != (tableEntry.getValue().size() - 1)}">
                         <td style="width: 30px;vertical-align: middle">
