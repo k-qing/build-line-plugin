@@ -74,15 +74,8 @@ public class BuildLineView extends View {
         }
 
         Map<String, List<CellBean>> viewData = new LinkedHashMap<String, List<CellBean>>();
-        identifier = "tags";
         int maxNum = 10;
-        //firstProjectName = "merge";
         firstProjectName = projectList.get(0);
-
-        Item item = Jenkins.getInstance().getItem("build");
-        projectList = new ArrayList<String>();
-        //projectList.add("merge");
-        projectList.add("build");
 
         List<String> identifierList = new ArrayList<String>();
         Map<String, AbstractBuild<?, ?>> idBuildMap = new HashMap<String, AbstractBuild<?, ?>>();
@@ -94,25 +87,26 @@ public class BuildLineView extends View {
         for (int k = 0; k < maxNum; k++) {
             if (k < buildList.size()) {
                 AbstractBuild<?, ?> build = (AbstractBuild<?, ?>)buildList.get(k);
-
-
                 String identifierValue = build.getBuildVariables().get(identifier);
-                identifierList.add(identifierValue);
-                idBuildMap.put(identifierValue, build);
-                List<CellBean> cellBeanList = new ArrayList<CellBean>();
-                CellBean cellBean = new CellBean();
-                cellBean.setContent(build.toString());
-                cellBean.setBuildNumber(build.getNumber());
-                cellBean.setBuild(build);
-                cellBeanList.add(cellBean);
-                viewData.put(identifierValue, cellBeanList);
+
+                if(!identifierList.contains(identifierValue)) {
+                    identifierList.add(identifierValue);
+                    idBuildMap.put(identifierValue, build);
+                    List<CellBean> cellBeanList = new ArrayList<CellBean>();
+                    CellBean cellBean = new CellBean();
+                    cellBean.setContent(build.toString());
+                    cellBean.setBuildNumber(build.getNumber());
+                    cellBean.setBuild(build);
+                    cellBeanList.add(cellBean);
+                    viewData.put(identifierValue, cellBeanList);
+                }
             } else {
                 break;
             }
         }
 
         for(int j = 0; j < identifierList.size(); j++) {
-            for (int i = 0; i < projectList.size(); i++) {
+            for (int i = 1; i < projectList.size(); i++) {
                 String projectName = projectList.get(i);
                 AbstractBuild<?, ?> build = getBuild(identifierList.get(j), maxNum, projectName);
                 if (build != null) {
