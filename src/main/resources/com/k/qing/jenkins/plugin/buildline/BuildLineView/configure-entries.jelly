@@ -18,6 +18,10 @@
         <f:textbox name="maxNum" />
     </f:entry>
 
+    <f:entry title="Summary File Path" field="summaryFilePath">
+        <f:textbox name="summaryFilePath" />
+    </f:entry>
+
     <!--<f:dropdownList name="configType" title="Configuration Type" help="">
         <f:dropdownListBlock value="default" title="Default">
             <f:entry title="First Project" help="">

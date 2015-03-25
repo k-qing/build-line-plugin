@@ -60,11 +60,6 @@
                     Step
                 </a>
             </td>
-           <!-- <td>
-                <a href='../../manage'>
-                    <img src="${rootURL}/images/24x24/setting.png" class="icon-with-caption"/>Manage
-                </a>
-            </td>-->
             <td>
                 <a href='delete'>
                     <img src="${rootURL}/images/24x24/edit-delete.png" class="icon-with-caption"/>Delete
@@ -84,30 +79,6 @@
                 ${tableEntry.getValue().get(0).getBuild().getTimestamp().getTime()}
             </td>
             <j:forEach var="tableCell" items="${tableEntry.getValue()}" begin="0" end="${tableEntry.getValue().size() - 1}" indexVar="i">
-                <!-- <j:if test="${tableCell.getBuild().isBuilding()}">
-                     <td>
-                         <table class="innerblock" style="background-color:yellow;">
-                             <tr class="header">
-                                 <td>
-                                     <div class="pointer">
-                                         <span class="build-duration">
-                                             ${tableCell.getBuild().getDurationString()}
-                                         </span>
-                                     </div>
-                                 </td>
-                             </tr>
-                             <tr><td><a href="${tableCell.getBuild().getUrl()}" target="_blank">${tableCell.getBuild()}</a></td></tr>
-                             <tr><td>${tableCell.getContent()}</td></tr>
-                             <tr><td style="text-align:right"><a href="${tableCell.getBuild().getUrl()}/console" target="_blank"><img src="${rootURL}/images/16x16/terminal.png" class="icon-with-caption"/></a></td></tr>
-                         </table>
-                     </td>
-                     <j:if test="${i != (tableEntry.getValue().size() - 1)}">
-                         <td style="width: 30px;vertical-align: middle">
-                             <img src="${rootURL}/images/24x24/next.png" />
-                         </td>
-                     </j:if>
-                 </j:if>
-                 <j:if test="${!tableCell.getBuild().isBuilding()}">-->
                     <td>
                         <table class="innerblock" style="background-color:${tableCell.getColor()};">
                             <tr class="header">

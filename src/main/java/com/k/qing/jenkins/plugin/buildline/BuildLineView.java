@@ -45,6 +45,7 @@ public class BuildLineView extends View {
     private String firstProjectName;
     private String projects;
     private int maxNum;
+    private String summaryFilePath;
     private List<String> projectList = new ArrayList<String>();
 
 
@@ -95,7 +96,7 @@ public class BuildLineView extends View {
                     idBuildMap.put(identifierValue, build);
                     List<CellBean> cellBeanList = new ArrayList<CellBean>();
                     CellBean cellBean = new CellBean();
-                    //cellBean.setContent(build.toString());
+                    cellBean.setContent(getSummaryContent(build, this.summaryFilePath));
                     cellBean.setBuildNumber(build.getNumber());
                     cellBean.setBuild(build);
                     cellBeanList.add(cellBean);
@@ -112,7 +113,7 @@ public class BuildLineView extends View {
                 AbstractBuild<?, ?> build = getBuild(identifierList.get(j), maxNum, projectName);
                 if (build != null) {
                     CellBean cellBean = new CellBean();
-                    //cellBean.setContent(build.toString());
+                    cellBean.setContent(getSummaryContent(build, this.summaryFilePath));
                     cellBean.setBuildNumber(build.getNumber());
                     cellBean.setBuild(build);
                     viewData.get(identifierList.get(j)).add(cellBean);
@@ -141,6 +142,37 @@ public class BuildLineView extends View {
         return null;
     }
 
+    private String getSummaryContent(AbstractBuild<?, ?> build, String summaryFilePath) {
+        File summaryFile = new File(build.getRootDir() + "/" + summaryFilePath);
+        if (summaryFile.exists()) {
+            return readFileByLines(summaryFile);
+        } else {
+            return "";
+        }
+    }
+
+    public static String readFileByLines(File file) {
+        StringBuffer sb = new StringBuffer();
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String tempString = null;
+            while ((tempString = reader.readLine()) != null) {
+                sb.append(tempString);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+        return sb.toString();
+    }
 
     /**
      * Get all the information that view page uses.
@@ -414,6 +446,7 @@ public class BuildLineView extends View {
         this.buildViewTitle = req.getParameter("buildViewTitle");
         this.identifier = req.getParameter("identifier");
         this.projects = req.getParameter("projects");
+        this.summaryFilePath = req.getParameter("summaryFilePath");
         String maxNumStr = req.getParameter("maxNum");
         if (maxNumStr != null) {
             try {
@@ -502,6 +535,14 @@ public class BuildLineView extends View {
 
     public void setMaxNum(int maxNum) {
         this.maxNum = maxNum;
+    }
+
+    public String getSummaryFilePath() {
+        return summaryFilePath;
+    }
+
+    public void setSummaryFilePath(String summaryFilePath) {
+        this.summaryFilePath = summaryFilePath;
     }
 
     /**
