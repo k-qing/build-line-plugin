@@ -44,6 +44,7 @@ public class BuildLineView extends View {
     private String identifier;
     private String firstProjectName;
     private String projects;
+    private int maxNum;
     private List<String> projectList = new ArrayList<String>();
 
 
@@ -74,7 +75,7 @@ public class BuildLineView extends View {
         }
 
         Map<String, List<CellBean>> viewData = new LinkedHashMap<String, List<CellBean>>();
-        int maxNum = 10;
+        int maxNum = this.maxNum;
         firstProjectName = projectList.get(0);
 
         List<String> identifierList = new ArrayList<String>();
@@ -94,7 +95,7 @@ public class BuildLineView extends View {
                     idBuildMap.put(identifierValue, build);
                     List<CellBean> cellBeanList = new ArrayList<CellBean>();
                     CellBean cellBean = new CellBean();
-                    cellBean.setContent(build.toString());
+                    //cellBean.setContent(build.toString());
                     cellBean.setBuildNumber(build.getNumber());
                     cellBean.setBuild(build);
                     cellBeanList.add(cellBean);
@@ -111,7 +112,7 @@ public class BuildLineView extends View {
                 AbstractBuild<?, ?> build = getBuild(identifierList.get(j), maxNum, projectName);
                 if (build != null) {
                     CellBean cellBean = new CellBean();
-                    cellBean.setContent(build.toString());
+                    //cellBean.setContent(build.toString());
                     cellBean.setBuildNumber(build.getNumber());
                     cellBean.setBuild(build);
                     viewData.get(identifierList.get(j)).add(cellBean);
@@ -413,6 +414,17 @@ public class BuildLineView extends View {
         this.buildViewTitle = req.getParameter("buildViewTitle");
         this.identifier = req.getParameter("identifier");
         this.projects = req.getParameter("projects");
+        String maxNumStr = req.getParameter("maxNum");
+        if (maxNumStr != null) {
+            try {
+                this.maxNum = Integer.parseInt(maxNumStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+                this.maxNum = 10;
+            }
+        } else {
+            this.maxNum = 10;
+        }
 //        String[] projectNames = req.getParameterValues("projectNames");
 //
 //        this.tableInfoList = req.bindParametersToList(TableInfo.class, "table_");
@@ -482,6 +494,14 @@ public class BuildLineView extends View {
 
     public void setProjects(String projects) {
         this.projects = projects;
+    }
+
+    public int getMaxNum() {
+        return maxNum;
+    }
+
+    public void setMaxNum(int maxNum) {
+        this.maxNum = maxNum;
     }
 
     /**

@@ -14,6 +14,10 @@
         <f:textbox name="identifier"/>
     </f:entry>
 
+    <f:entry title="Max Number" field="maxNum">
+        <f:textbox name="maxNum" />
+    </f:entry>
+
     <!--<f:dropdownList name="configType" title="Configuration Type" help="">
         <f:dropdownListBlock value="default" title="Default">
             <f:entry title="First Project" help="">
