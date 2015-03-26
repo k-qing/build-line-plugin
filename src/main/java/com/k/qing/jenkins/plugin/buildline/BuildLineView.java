@@ -142,13 +142,20 @@ public class BuildLineView extends View {
         return null;
     }
 
-    private String getSummaryContent(AbstractBuild<?, ?> build, String summaryFilePath) {
-        File summaryFile = new File(build.getRootDir() + "/" + summaryFilePath);
-        if (summaryFile.exists()) {
-            return readFileByLines(summaryFile);
-        } else {
-            return "";
+    private String getSummaryContent(AbstractBuild<?, ?> build, String summaryFilePaths) {
+
+        if (summaryFilePaths != null) {
+            String[] summaryFilePathArray = summaryFilePaths.split(",");
+            for (String summaryFilePath : summaryFilePathArray) {
+                if(summaryFilePath != null) {
+                    File summaryFile = new File(build.getRootDir() + "/" + summaryFilePath.trim());
+                    if (summaryFile.exists()) {
+                        return readFileByLines(summaryFile);
+                    }
+                }
+            }
         }
+        return "";
     }
 
     public static String readFileByLines(File file) {

@@ -75,8 +75,10 @@
     <j:forEach var="tableEntry" items="${viewData.entrySet()}">
         <tr>
             <td>
-                ${tableEntry.getKey()} <br/>
-                ${tableEntry.getValue().get(0).getBuild().getTimestamp().getTime()}
+                <table>
+                    <tr><td><font size="4px">${tableEntry.getKey()}</font></td></tr>
+                    <tr><td>${tableEntry.getValue().get(0).getBuild().getTimestamp().getTime()}</td></tr>
+                </table>
             </td>
             <j:forEach var="tableCell" items="${tableEntry.getValue()}" begin="0" end="${tableEntry.getValue().size() - 1}" indexVar="i">
                     <td>
